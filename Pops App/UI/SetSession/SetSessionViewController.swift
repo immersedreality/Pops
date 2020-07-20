@@ -325,7 +325,6 @@ extension SetSessionViewController {
         UIView.animate(withDuration: 0.7, animations: {
             self.coachBottomAnchorConstraint.constant = 100
             self.view.layoutIfNeeded()
-            
         })
 
         let homeSettingsVC = HomeSettingsViewController()
@@ -464,7 +463,7 @@ extension SetSessionViewController {
             
         }) { _ in
             
-            UIView.animate(withDuration: 0.6, delay: 0, options: [.curveEaseOut], animations: {
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut], animations: {
                 self.characterMessageBody.text = "It’s simple. You’ll focus on work that doesn’t require your phone for blocks of 25 minutes. In between each block, I’ll notify you to take a 5 minute break."
                 self.characterMessageHeader.text = "Wondering how this will work?"
                 self.characterMessageBody.alpha = 1
@@ -478,24 +477,22 @@ extension SetSessionViewController {
 
     @objc func animateBackToSetSession() {
         
-        UIView.animate(withDuration: 0.6, animations: {
-            self.viewModel.dataStore.defaults.set(true, forKey: "returningUser")
-            self.readyButtonsStackViewBottomAnchor.constant = -48
+        UIView.animate(withDuration: 0.3, animations: {
+            self.readyButtonsStackViewBottomAnchor.constant = 128
             self.characterMessageBody.alpha = 0
             self.characterMessageHeader.alpha = 0
             self.view.layoutIfNeeded()
             
         }) { _ in
             
-            UIView.animate(withDuration: 0.6, delay: 0, options: [.curveEaseOut], animations: { 
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut], animations: {
                 self.characterMessageBody.text = "Just press start whenever you are ready to begin being productive."
                 self.characterMessageHeader.text = "No worries!"
                 self.characterMessageBody.alpha = 1
                 self.characterMessageHeader.alpha = 1
                 self.settingsButton.alpha = 1
-                self.setupStartButton()
-                self.setupCollectionViewLayout()
-                self.setupCollectionView()
+                self.startButtonCenterXAnchor.constant = 0
+                self.collectionViewLeadingAnchor.constant = 0
                 self.view.layoutIfNeeded()
             }, completion: { _ in
                 let visibleCells = self.selectHourCollectionView.visibleCells as! [HourCollectionViewCell]
@@ -522,7 +519,7 @@ extension SetSessionViewController {
     func animateReadyButtons() {
         
         UIView.animate(withDuration: 0.3, animations: {
-            self.allowNotificationButtonsStackViewXAnchor.constant += self.viewWidth
+            self.allowNotificationButtonsStackViewBottomAnchor.constant = 128
             self.characterMessageBody.alpha = 0
             self.characterMessageHeader.alpha = 0
             self.view.layoutIfNeeded()
