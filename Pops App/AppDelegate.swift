@@ -8,7 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let defaults = UserDefaults.standard
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         defaults.set(false, forKey: "sessionActive")
@@ -20,22 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "appEnteredBackground"), object: self)
     }
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
-    }
-
     func applicationWillEnterForeground(_ application: UIApplication) {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "appEnteredForeground"), object: self)
-            }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
     }
 
-    func applicationWillTerminate(_ application: UIApplication) {
-    }
-    
-    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        return window == self.window ? .portrait : .allButUpsideDown
-    }
 }
 
