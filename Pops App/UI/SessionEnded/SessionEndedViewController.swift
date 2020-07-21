@@ -54,28 +54,44 @@ class SessionEndedViewController: UIViewController {
     }
     
     @objc func presentSetSessionVC() {
-        if viewModel.dataStore.user.currentSession?.mightCancelSession == true {
-            viewModel.dataStore.user.currentSession = nil
+
+        UIView.animate(withDuration: 0.7, animations: {
+            self.coachBottomAnchorConstraint?.constant = 120
+            self.view.layoutIfNeeded()
+        }) { (_) in
+            if self.viewModel.dataStore.user.currentSession?.mightCancelSession == true {
+                self.viewModel.dataStore.user.currentSession = nil
+            }
+
+            self.viewModel.dataStore.defaults.set(false, forKey: "sessionActive")
+            self.viewModel.dataStore.defaults.set(true, forKey: "returningUser")
+
+            let setSessionVC = SetSessionViewController()
+            setSessionVC.modalPresentationStyle = .fullScreen
+            self.present(setSessionVC, animated: true, completion: nil)
         }
-        
-        viewModel.dataStore.defaults.set(false, forKey: "sessionActive")
-        viewModel.dataStore.defaults.set(true, forKey: "returningUser")
-        
-        let setSessionVC = SetSessionViewController()
-        setSessionVC.modalPresentationStyle = .fullScreen
-        present(setSessionVC, animated: true, completion: nil)
+
     }
     
     @objc func presentProductiveTimeVC() {
-        if viewModel.dataStore.user.currentSession?.mightCancelSession == true {
-            dismiss(animated: true, completion: nil)
-        } else {
-            viewModel.dataStore.defaults.set(false, forKey: "sessionActive")
-            viewModel.startSessionOfLength(1)
-            let productiveTimeVC = ProductiveTimeViewController()
-            productiveTimeVC.modalPresentationStyle = .fullScreen
-            present(productiveTimeVC, animated: true, completion: nil)
+
+        UIView.animate(withDuration: 0.7, animations: {
+            self.coachBottomAnchorConstraint?.constant = 120
+            self.view.layoutIfNeeded()
+        }) { (_) in
+
+            if self.viewModel.dataStore.user.currentSession?.mightCancelSession == true {
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                self.viewModel.dataStore.defaults.set(false, forKey: "sessionActive")
+                self.viewModel.startSessionOfLength(1)
+                let productiveTimeVC = ProductiveTimeViewController()
+                productiveTimeVC.modalPresentationStyle = .fullScreen
+                self.present(productiveTimeVC, animated: true, completion: nil)
+            }
+
         }
+
     }
 
 }
@@ -198,7 +214,7 @@ extension SessionEndedViewController {
 
     func animateCoachPopup() {
         self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 0.7) {
             self.coachBottomAnchorConstraint.constant = 10
             self.view.layoutIfNeeded()
         }

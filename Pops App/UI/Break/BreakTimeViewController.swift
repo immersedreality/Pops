@@ -76,7 +76,7 @@ class BreakTimeViewController: UIViewController, BreakTimeViewModelDelegate, Bre
 
     func moveToProductivity() {
         UIView.animate(withDuration: 0.7, animations: {
-            self.coachBottomAnchorConstraint.constant = 100
+            self.coachBottomAnchorConstraint.constant = 120
             self.view.layoutIfNeeded()
         }) { _ in
             let productiveTimeViewController = ProductiveTimeViewController()
@@ -89,7 +89,7 @@ class BreakTimeViewController: UIViewController, BreakTimeViewModelDelegate, Bre
         viewModel.breakTimer.invalidate()
         
         UIView.animate(withDuration: 0.7, animations: {
-            self.coachBottomAnchorConstraint.constant = 100
+            self.coachBottomAnchorConstraint.constant = 120
             self.view.layoutIfNeeded()
         }) { _ in
             let sessionEndedViewController = SessionEndedViewController()
@@ -263,7 +263,7 @@ extension BreakTimeViewController {
 
     func animateCoachPopup() {
         self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 0.7) {
             self.coachBottomAnchorConstraint.constant = 10
             self.view.layoutIfNeeded()
         }

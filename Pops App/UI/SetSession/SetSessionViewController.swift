@@ -34,7 +34,7 @@ class SetSessionViewController: UIViewController {
     let coachTap = UITapGestureRecognizer()
     
     //Needed to animate pops
-    var coachBottomAnchorConstraint: NSLayoutConstraint!
+    var coachBottomAnchorConstraint: NSLayoutConstraint?
     
     //First Onboarding Animation
     var collectionViewLeadingAnchor: NSLayoutConstraint!
@@ -66,10 +66,13 @@ class SetSessionViewController: UIViewController {
         setupGestureRecognizer()
         setupAllowNotificationButtons()
         setupReadyButtons()
+    }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         animateCoachPopup()
     }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         let visibleCells = selectHourCollectionView.visibleCells as! [HourCollectionViewCell]
         visibleCells.forEach { $0.deselectCell() }
@@ -88,9 +91,8 @@ class SetSessionViewController: UIViewController {
     func presentProductiveTimeVC() {
         self.view.layoutIfNeeded()
         UIView.animate(withDuration: 0.7, animations: {
-            self.coachBottomAnchorConstraint.constant = 100
+            self.coachBottomAnchorConstraint?.constant = 120
             self.view.layoutIfNeeded()
-            
         }) { _ in
             let productiveTimeVC = ProductiveTimeViewController()
             productiveTimeVC.modalPresentationStyle = .fullScreen
@@ -220,8 +222,11 @@ extension SetSessionViewController {
         coachWindowView.addSubview(coachIcon)
         coachIcon.translatesAutoresizingMaskIntoConstraints = false
 
-        coachBottomAnchorConstraint = coachIcon.bottomAnchor.constraint(equalTo: coachWindowView.bottomAnchor, constant: 120)
-        coachBottomAnchorConstraint.isActive = true
+        if coachBottomAnchorConstraint == nil {
+            coachBottomAnchorConstraint = coachIcon.bottomAnchor.constraint(equalTo: coachWindowView.bottomAnchor, constant: 120)
+            coachBottomAnchorConstraint?.isActive = true
+        }
+
         coachIcon.centerXAnchor.constraint(equalTo: coachWindowView.centerXAnchor, constant: 0).isActive = true
     }
 
@@ -323,13 +328,14 @@ extension SetSessionViewController {
     @objc func presentHomeSettingsVC() {
 
         UIView.animate(withDuration: 0.7, animations: {
-            self.coachBottomAnchorConstraint.constant = 100
+            self.coachBottomAnchorConstraint?.constant = 120
             self.view.layoutIfNeeded()
-        })
+        }) { (_) in
+            let homeSettingsVC = HomeSettingsViewController()
+            homeSettingsVC.modalPresentationStyle = .fullScreen
+            self.present(homeSettingsVC, animated: true, completion: nil)
+        }
 
-        let homeSettingsVC = HomeSettingsViewController()
-        homeSettingsVC.modalPresentationStyle = .fullScreen
-        self.present(homeSettingsVC, animated: true, completion: nil)
     }
     
     func setupGestureRecognizer() {
@@ -357,8 +363,8 @@ extension SetSessionViewController {
     
     func animateCoachPopup() {
         self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 1) {
-            self.coachBottomAnchorConstraint.constant = 10
+        UIView.animate(withDuration: 0.7) {
+            self.coachBottomAnchorConstraint?.constant = 10
             self.view.layoutIfNeeded()
         }
     }

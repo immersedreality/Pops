@@ -63,7 +63,7 @@ private extension DataStore {
 
         let name = "Pops"
         let icon = UIImage(named: "IC_POPS")
-        let bio = "Pops gives you a 5 minute break for every 25 minutes of productivity.  During breaks Pops offers wisdom and life lessons."
+        let bio = "Pops gives you a 5 minute break for every 25 minutes of productivity.  During breaks, Pops offers wisdom and life lessons."
         let difficulty = DifficultySetting.standard
 
         let tapStatements = [
@@ -133,7 +133,7 @@ private extension DataStore {
 
         let name = "Baba"
         let icon = UIImage(named: "IC_BABA")
-        let bio = "Baba takes it easy on you with a 10 minute break for every 20 minutes of productivity.  During breaks Baba showers you with love and praise."
+        let bio = "Baba takes it easy on you with a 10 minute break for every 20 minutes of productivity.  During breaks, Baba showers you with love and praise."
         let difficulty = DifficultySetting.easy
 
         let tapStatements = [
@@ -204,7 +204,7 @@ private extension DataStore {
 
         let name = "Chad"
         let icon = UIImage(named: "IC_CHAD")
-        let bio = "With Chad you only get a 5 minute break for every 55 minutes of productivity!  During breaks Chad challenges you with health and fitness suggestions."
+        let bio = "With Chad you only get a 5 minute break for every 55 minutes of productivity!  During breaks, Chad challenges you with health and fitness suggestions."
         let difficulty = DifficultySetting.hard
 
         let tapStatements = [

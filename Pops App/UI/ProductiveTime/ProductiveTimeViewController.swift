@@ -62,7 +62,6 @@ class ProductiveTimeViewController: UIViewController, ProductiveTimeViewModelDel
         productiveTimeLabel.isHidden = true
 
         animateCoachPopup()
-        productiveTimeEndedUserNotificationRequest()
         UIApplication.shared.isIdleTimerDisabled = true
     }
     
@@ -73,9 +72,7 @@ class ProductiveTimeViewController: UIViewController, ProductiveTimeViewModelDel
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)        
-        
-        productiveTimeEndedUserNotificationRequest()
+        super.viewDidAppear(animated)
         
         if (viewModel.dataStore.user.currentSession?.mightCancelSession)! {
             appEnteredForeground()
@@ -114,7 +111,7 @@ class ProductiveTimeViewController: UIViewController, ProductiveTimeViewModelDel
         
         if (viewModel.dataStore.user.currentSession?.mightCancelSession)! {
             UIView.animate(withDuration: 0.7, animations: {
-                self.coachBottomAnchorConstraint.constant = 100
+                self.coachBottomAnchorConstraint.constant = 120
                 self.view.layoutIfNeeded()
                 
             }) { _ in
@@ -123,9 +120,13 @@ class ProductiveTimeViewController: UIViewController, ProductiveTimeViewModelDel
                 self.present(sessionEndedViewController, animated: true, completion: nil)
             }
         } else {
-            let setSessionViewController = SetSessionViewController()
-            setSessionViewController.modalPresentationStyle = .fullScreen
-            present(setSessionViewController, animated: true, completion: nil)
+            UIView.animate(withDuration: 0.7, animations: {
+                self.coachBottomAnchorConstraint.constant = 120
+                self.view.layoutIfNeeded()
+
+            }) { _ in
+                self.dismiss(animated: true, completion: nil)
+            }
         }
     }
     
@@ -136,7 +137,7 @@ class ProductiveTimeViewController: UIViewController, ProductiveTimeViewModelDel
     
     func moveToBreak() {        
         UIView.animate(withDuration: 0.7, animations: {
-            self.coachBottomAnchorConstraint.constant = 100
+            self.coachBottomAnchorConstraint.constant = 120
             self.view.layoutIfNeeded()
         }) { _ in
             let breakTimeViewController = BreakTimeViewController()
@@ -153,7 +154,7 @@ class ProductiveTimeViewController: UIViewController, ProductiveTimeViewModelDel
         self.view.layoutIfNeeded()
         
         UIView.animate(withDuration: 0.7, animations: {
-            self.coachBottomAnchorConstraint.constant = 100
+            self.coachBottomAnchorConstraint.constant = 120
             self.view.layoutIfNeeded()
         }) { _ in
             let breakTimeViewController = BreakTimeViewController()
@@ -283,7 +284,7 @@ extension ProductiveTimeViewController {
 
     func animateCoachPopup() {
         self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 1, animations: {
+        UIView.animate(withDuration: 0.7, animations: {
             self.coachBottomAnchorConstraint.constant = 10
             self.view.layoutIfNeeded()
         }) { _ in
@@ -301,27 +302,4 @@ extension ProductiveTimeViewController {
         self.cancelSessionButton.addTarget(self, action: #selector(self.cancelSessionWithPenalty), for: .touchUpInside)
         //self.cancelSessionButton.addTarget(self, action: #selector(self.skipToBreak), for: .touchUpInside)
     }
-}
-
-extension ProductiveTimeViewController {
-    
-    func productiveTimeEndedUserNotificationRequest() {
-        
-        let content = UNMutableNotificationContent()
-        content.title = viewModel.dataStore.user.currentCoach.productivityNotificationStatements[0].header
-        content.body = viewModel.dataStore.user.currentCoach.productivityNotificationStatements[0].body
-        content.sound = UNNotificationSound.default
-        
-        let productivityTimerLength = viewModel.dataStore.user.currentCoach.difficulty.baseProductivityLength
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(productivityTimerLength), repeats: false)
-        
-        let identifier = "UYLLocalNotification"
-        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-
-        center.add(request, withCompletionHandler: { (error) in
-            if let error = error {
-                print(error) }})
-    }
-
 }
