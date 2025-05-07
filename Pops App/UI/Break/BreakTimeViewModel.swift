@@ -2,16 +2,16 @@
 import Foundation
 import UIKit
 
-protocol BreakTimeViewModelDelegate: class {
+protocol BreakTimeViewModelDelegate: AnyObject {
     func moveToProductivity()
     func moveToSessionEnded()
 }
 
-protocol BreakTimeViewModelProgressBarDelegate: class {
+protocol BreakTimeViewModelProgressBarDelegate: AnyObject {
     var progressBarWidthAnchor: NSLayoutConstraint! {get set}
 }
 
-protocol DisplayBreakTimerDelegate: class {
+protocol DisplayBreakTimerDelegate: AnyObject {
     var breakTimerLabel: UILabel {get set}
     var settingsTimerCounter: Int {get set}
 }
@@ -65,7 +65,6 @@ final class BreakTimeViewModel {
         }
         
         breakTimerCounter -= 1
-        print("break timer: \(breakTimerCounter)")
         
         if breakTimerCounter <= 0 && dataStore.user.currentSession!.sessionTimerCounter > 1 {
             breakIsOn = false

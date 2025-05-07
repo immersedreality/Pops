@@ -10,10 +10,7 @@ final class DataStore {
     var user: User!
     
     private init() {
-        let userName = defaults.value(forKey: "username") as? String ?? nil
-        let unlockedCoaches = defaults.value(forKey: "unlockedCoaches") as? [String] ?? ["Pops"]
-        let appNames = defaults.value(forKey: "appNames") as? [String] ?? ["Messages", "Email", "Facebook"]
-        self.user = User(userName: userName, unlockedCoachNames: unlockedCoaches, appNames: appNames, currentCoach: getCurrentCoach(), currentSession: nil)
+        self.user = User(currentCoach: getCurrentCoach(), currentSession: nil)
     }
     
     func getCurrentCoach() -> Coach {

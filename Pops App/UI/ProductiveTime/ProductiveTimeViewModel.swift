@@ -5,7 +5,7 @@ import CoreMotion
 import AudioToolbox
 import AVFoundation
 
-protocol ProductiveTimeViewModelDelegate: class {
+protocol ProductiveTimeViewModelDelegate: AnyObject {
     var productiveTimeLabel: UILabel {get set}
     var progressBarWidthAnchor: NSLayoutConstraint! {get set}
     var characterMessageHeader: UILabel {get set}
@@ -73,7 +73,6 @@ final class ProductiveTimeViewModel {
     func productivityTimerAction() {
 
         productivityTimerCounter -= 1
-        print("productivity timer: \(productivityTimerCounter)")
         
         if motionManager.accelerometerData!.acceleration.z > 0.25 {
             delegate.characterMessageHeader.text = dataStore.user.currentCoach.productivityStatements[0].header

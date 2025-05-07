@@ -2,7 +2,7 @@
 import UIKit
 
 //protocol to enable end break.
-protocol BreakButtonDelegate: class {
+protocol BreakButtonDelegate: AnyObject {
     func endBreakBttnPressed()
     func moveToSessionEnded()
 }
